@@ -2,9 +2,25 @@ from rest_framework import serializers
 from .models import User, Team, Activity, Leaderboard, Workout
 
 class TeamSerializer(serializers.ModelSerializer):
+    member_count = serializers.SerializerMethodField()
+    total_points = serializers.SerializerMethodField()
+    
     class Meta:
         model = Team
-        fields = '__all__'
+        fields = ['id', 'name', 'description', 'member_count', 'total_points']
+    
+    def get_member_count(self, obj):
+        """Return the count of users in this team"""
+        return obj.members.count()
+    
+    def get_total_points(self, obj):
+        """Calculate total points from all team members' activities"""
+        from django.db.models import Sum
+        # Sum calories burned from all activities of team members
+        result = Activity.objects.filter(user__team=obj).aggregate(
+            total=Sum('calories_burned')
+        )
+        return result['total'] or 0
 
 class UserSerializer(serializers.ModelSerializer):
     team = TeamSerializer(read_only=True)
