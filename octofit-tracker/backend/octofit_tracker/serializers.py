@@ -34,16 +34,16 @@ class LeaderboardSerializer(serializers.ModelSerializer):
     team_name = serializers.SerializerMethodField()
     total_points = serializers.IntegerField(source='score', read_only=True)
     activity_count = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = Leaderboard
         fields = ['id', 'user', 'user_id', 'user_name', 'team_name', 'score', 'total_points', 'rank', 'activity_count']
-    
+
     def get_user_name(self, obj):
         return obj.user.name if obj.user else None
-    
+
     def get_team_name(self, obj):
         return obj.user.team.name if obj.user and obj.user.team else None
-    
+
     def get_activity_count(self, obj):
         return obj.user.activities.count() if obj.user else 0
