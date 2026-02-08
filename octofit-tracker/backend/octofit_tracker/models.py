@@ -19,10 +19,27 @@ class User(models.Model):
         return self.name
 
 class Workout(models.Model):
+    CATEGORY_CHOICES = [
+        ('Strength', 'Strength'),
+        ('Core', 'Core'),
+        ('Cardio', 'Cardio'),
+        ('Flexibility', 'Flexibility'),
+        ('Balance', 'Balance'),
+    ]
+    
     id = models.ObjectIdField(primary_key=True, editable=False)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     difficulty = models.CharField(max_length=50)
+    points_per_minute = models.IntegerField(
+        default=10,
+        help_text='Points earned per minute of this workout activity'
+    )
+    category = models.CharField(
+        max_length=50,
+        choices=CATEGORY_CHOICES,
+        help_text='Type of workout (e.g., Strength, Cardio, Core)'
+    )
 
     def __str__(self):
         return self.name

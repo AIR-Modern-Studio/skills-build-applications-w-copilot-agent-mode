@@ -12,16 +12,18 @@ class UserModelTest(TestCase):
 
 class WorkoutModelTest(TestCase):
     def setUp(self):
-        self.workout = Workout.objects.create(name='Pushups', description='Upper body', difficulty='Easy')
+        self.workout = Workout.objects.create(name='Pushups', description='Upper body', difficulty='Easy', points_per_minute=8, category='Strength')
 
     def test_workout_creation(self):
         self.assertEqual(self.workout.name, 'Pushups')
+        self.assertEqual(self.workout.points_per_minute, 8)
+        self.assertEqual(self.workout.category, 'Strength')
 
 class ActivityModelTest(TestCase):
     def setUp(self):
         team = Team.objects.create(name='DC', description='DC Team')
         user = User.objects.create(name='Batman', email='batman@dc.com', team=team, is_superhero=True)
-        workout = Workout.objects.create(name='Situps', description='Core', difficulty='Medium')
+        workout = Workout.objects.create(name='Situps', description='Core', difficulty='Medium', points_per_minute=10, category='Core')
         self.activity = Activity.objects.create(user=user, workout=workout, duration_minutes=30, calories_burned=200)
 
     def test_activity_creation(self):
