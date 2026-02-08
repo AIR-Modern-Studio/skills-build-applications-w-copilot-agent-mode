@@ -36,8 +36,7 @@ class Workout(models.Model):
         help_text='Points earned per minute of this workout activity'
     )
     category = models.CharField(
-        max_length=50, 
-        blank=True,
+        max_length=50,
         choices=CATEGORY_CHOICES,
         help_text='Type of workout (e.g., Strength, Cardio, Core)'
     )
