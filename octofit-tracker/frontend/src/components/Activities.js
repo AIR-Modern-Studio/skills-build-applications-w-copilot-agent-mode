@@ -69,7 +69,7 @@ function Activities() {
               <th scope="col">User</th>
               <th scope="col">Workout Type</th>
               <th scope="col">Duration</th>
-              <th scope="col">Points</th>
+              <th scope="col">Calories</th>
               <th scope="col">Date</th>
             </tr>
           </thead>
@@ -78,15 +78,15 @@ function Activities() {
               activities.map((activity, index) => (
                 <tr key={activity.id || activity._id}>
                   <td>{index + 1}</td>
-                  <td><strong>{activity.user_name || activity.user || 'N/A'}</strong></td>
+                  <td><strong>{activity.user?.name || 'N/A'}</strong></td>
                   <td>
-                    <span className="badge bg-secondary">{activity.workout_name || activity.workout_type || 'N/A'}</span>
+                    <span className="badge bg-secondary">{activity.workout?.name || 'N/A'}</span>
                   </td>
-                  <td>{activity.duration} min</td>
+                  <td>{activity.duration_minutes || 0} min</td>
                   <td>
-                    <span className="badge bg-success">{activity.points_earned || 0} pts</span>
+                    <span className="badge bg-success">{activity.calories_burned || 0} cal</span>
                   </td>
-                  <td>{new Date(activity.date || activity.created_at).toLocaleDateString()}</td>
+                  <td>{new Date(activity.date).toLocaleDateString()}</td>
                 </tr>
               ))
             ) : (
