@@ -86,7 +86,7 @@ function Activities() {
                   <td>
                     <span className="badge bg-success">{activity.calories_burned || 0} cal</span>
                   </td>
-                  <td>{new Date(activity.date).toLocaleDateString()}</td>
+                  <td>{activity.date ? new Date(activity.date).toLocaleDateString() : 'N/A'}</td>
                 </tr>
               ))
             ) : (
