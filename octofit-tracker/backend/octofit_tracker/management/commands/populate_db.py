@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
 from octofit_tracker.models import User, Team, Workout, Activity, Leaderboard
-from django.db import connection
 from pymongo import MongoClient
 
 class Command(BaseCommand):
@@ -28,9 +27,9 @@ class Command(BaseCommand):
         wonderwoman = User.objects.create(name='Wonder Woman', email='wonderwoman@dc.com', team=dc, is_superhero=True)
 
         self.stdout.write('Criando treinos...')
-        pushups = Workout.objects.create(name='Pushups', description='Flexões', difficulty='Fácil')
-        situps = Workout.objects.create(name='Situps', description='Abdominais', difficulty='Médio')
-        running = Workout.objects.create(name='Running', description='Corrida', difficulty='Difícil')
+        pushups = Workout.objects.create(name='Pushups', description='Flexões', difficulty='Fácil', points_per_minute=8, category='Strength')
+        situps = Workout.objects.create(name='Situps', description='Abdominais', difficulty='Médio', points_per_minute=10, category='Core')
+        running = Workout.objects.create(name='Running', description='Corrida', difficulty='Difícil', points_per_minute=12, category='Cardio')
 
         self.stdout.write('Criando atividades...')
         Activity.objects.create(user=spiderman, workout=pushups, duration_minutes=30, calories_burned=200)

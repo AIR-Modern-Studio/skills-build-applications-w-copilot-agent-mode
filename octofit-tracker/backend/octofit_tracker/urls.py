@@ -38,15 +38,15 @@ def api_root(request, format=None):
         # fallback to request host (localhost or other)
         base_url = f"{request.scheme}://{request.get_host()}"
     return Response({
-        'users': f"{base_url}{reverse('user-list', request=request, format=format)}",
-        'teams': f"{base_url}{reverse('team-list', request=request, format=format)}",
-        'workouts': f"{base_url}{reverse('workout-list', request=request, format=format)}",
-        'activities': f"{base_url}{reverse('activity-list', request=request, format=format)}",
-        'leaderboard': f"{base_url}{reverse('leaderboard-list', request=request, format=format)}",
+        'users': f"{base_url}{reverse('user-list', format=format)}",
+        'teams': f"{base_url}{reverse('team-list', format=format)}",
+        'workouts': f"{base_url}{reverse('workout-list', format=format)}",
+        'activities': f"{base_url}{reverse('activity-list', format=format)}",
+        'leaderboard': f"{base_url}{reverse('leaderboard-list', format=format)}",
     })
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', api_root, name='api-root'),
+    path('api/', api_root, name='api-root'),
     path('api/', include(router.urls)),
 ]
