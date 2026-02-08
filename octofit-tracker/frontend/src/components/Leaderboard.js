@@ -90,18 +90,18 @@ function Leaderboard() {
                         {badge.icon} {index + 1}
                       </span>
                     </td>
-                    <td><strong>{entry.user_name || entry.username || 'N/A'}</strong></td>
+                    <td><strong>{entry.user_name || 'N/A'}</strong></td>
                     <td>
-                      {entry.team_name || entry.team ? (
-                        <span className="badge bg-info">{entry.team_name || entry.team}</span>
+                      {entry.team_name ? (
+                        <span className="badge bg-info">{entry.team_name}</span>
                       ) : (
                         <span className="text-muted">No Team</span>
                       )}
                     </td>
                     <td>
-                      <span className="badge bg-success fs-6">{entry.points || entry.total_points || 0} pts</span>
+                      <span className="badge bg-success fs-6">{entry.total_points || 0} pts</span>
                     </td>
-                    <td>{entry.activity_count || entry.activities || 0}</td>
+                    <td>{entry.activity_count || 0}</td>
                   </tr>
                 );
               })
