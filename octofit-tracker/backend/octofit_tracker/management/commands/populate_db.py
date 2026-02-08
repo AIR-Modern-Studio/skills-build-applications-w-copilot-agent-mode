@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
 from octofit_tracker.models import User, Team, Workout, Activity, Leaderboard
-from django.db import connection
 from pymongo import MongoClient
 
 class Command(BaseCommand):
