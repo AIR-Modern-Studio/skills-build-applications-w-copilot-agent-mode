@@ -1,5 +1,7 @@
 from django.test import TestCase
 from .models import User, Team, Workout, Activity, Leaderboard
+from .serializers import UserSerializer, TeamSerializer, WorkoutSerializer, ActivitySerializer, LeaderboardSerializer
+import json
 
 class UserModelTest(TestCase):
     def setUp(self):
@@ -35,3 +37,76 @@ class LeaderboardModelTest(TestCase):
 
     def test_leaderboard_creation(self):
         self.assertEqual(self.leaderboard.rank, 1)
+
+class SerializerObjectIdTest(TestCase):
+    def setUp(self):
+        self.team = Team.objects.create(name='X-Men', description='X-Men Team')
+        self.user = User.objects.create(name='Wolverine', email='wolverine@xmen.com', team=self.team, is_superhero=True)
+        self.workout = Workout.objects.create(name='Running', description='Cardio', difficulty='Medium')
+        self.activity = Activity.objects.create(user=self.user, workout=self.workout, duration_minutes=45, calories_burned=300)
+        self.leaderboard = Leaderboard.objects.create(user=self.user, score=500, rank=2)
+
+    def test_team_serializer_id_is_string(self):
+        serializer = TeamSerializer(self.team)
+        data = serializer.data
+        # Verify id field exists and is a string
+        self.assertIn('id', data)
+        self.assertIsInstance(data['id'], str)
+        # Verify JSON serialization works
+        json_str = json.dumps(data)
+        self.assertIsInstance(json_str, str)
+
+    def test_user_serializer_id_is_string(self):
+        serializer = UserSerializer(self.user)
+        data = serializer.data
+        # Verify id field exists and is a string
+        self.assertIn('id', data)
+        self.assertIsInstance(data['id'], str)
+        # Verify nested team id is also a string
+        self.assertIn('team', data)
+        self.assertIn('id', data['team'])
+        self.assertIsInstance(data['team']['id'], str)
+        # Verify JSON serialization works
+        json_str = json.dumps(data)
+        self.assertIsInstance(json_str, str)
+
+    def test_workout_serializer_id_is_string(self):
+        serializer = WorkoutSerializer(self.workout)
+        data = serializer.data
+        # Verify id field exists and is a string
+        self.assertIn('id', data)
+        self.assertIsInstance(data['id'], str)
+        # Verify JSON serialization works
+        json_str = json.dumps(data)
+        self.assertIsInstance(json_str, str)
+
+    def test_activity_serializer_id_is_string(self):
+        serializer = ActivitySerializer(self.activity)
+        data = serializer.data
+        # Verify id field exists and is a string
+        self.assertIn('id', data)
+        self.assertIsInstance(data['id'], str)
+        # Verify nested user and workout ids are strings
+        self.assertIn('user', data)
+        self.assertIn('id', data['user'])
+        self.assertIsInstance(data['user']['id'], str)
+        self.assertIn('workout', data)
+        self.assertIn('id', data['workout'])
+        self.assertIsInstance(data['workout']['id'], str)
+        # Verify JSON serialization works
+        json_str = json.dumps(data)
+        self.assertIsInstance(json_str, str)
+
+    def test_leaderboard_serializer_id_is_string(self):
+        serializer = LeaderboardSerializer(self.leaderboard)
+        data = serializer.data
+        # Verify id field exists and is a string
+        self.assertIn('id', data)
+        self.assertIsInstance(data['id'], str)
+        # Verify nested user id is a string
+        self.assertIn('user', data)
+        self.assertIn('id', data['user'])
+        self.assertIsInstance(data['user']['id'], str)
+        # Verify JSON serialization works
+        json_str = json.dumps(data)
+        self.assertIsInstance(json_str, str)
