@@ -19,13 +19,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
+import os
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6jy92-q_0l8e*asyj97%smtcrrz0u*=y6r@l5!ykmk@5oq1g@d'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-6jy92-q_0l8e*asyj97%smtcrrz0u*=y6r@l5!ykmk@5oq1g@d')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-import os
+DEBUG = os.environ.get('DJANGO_DEBUG', '').lower() in ('true', '1', 't', 'yes')
 codespace_name = os.environ.get('CODESPACE_NAME')
 codespace_host = f"{codespace_name}-8000.app.github.dev" if codespace_name else None
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
