@@ -66,7 +66,7 @@ function Users() {
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Username</th>
+              <th scope="col">Name</th>
               <th scope="col">Email</th>
               <th scope="col">Team</th>
               <th scope="col">Points</th>
@@ -77,11 +77,11 @@ function Users() {
               users.map((user, index) => (
                 <tr key={user.id || user._id}>
                   <td>{index + 1}</td>
-                  <td><strong>{user.username}</strong></td>
+                  <td><strong>{user.name}</strong></td>
                   <td>{user.email}</td>
                   <td>
-                    {user.team_name || user.team ? (
-                      <span className="badge bg-info">{user.team_name || user.team}</span>
+                    {user.team?.name ? (
+                      <span className="badge bg-info">{user.team.name}</span>
                     ) : (
                       <span className="text-muted">No Team</span>
                     )}
