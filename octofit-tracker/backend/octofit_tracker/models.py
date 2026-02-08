@@ -23,6 +23,8 @@ class Workout(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     difficulty = models.CharField(max_length=50)
+    points_per_minute = models.IntegerField(default=10)
+    category = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
         return self.name
