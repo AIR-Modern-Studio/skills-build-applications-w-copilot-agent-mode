@@ -15,6 +15,15 @@ def validate_object_id(value):
         raise serializers.ValidationError(f"'{value}' is not a valid ObjectId.")
 
 
+class ObjectIdField(serializers.CharField):
+    """Custom field that handles ObjectId serialization and validation."""
+    
+    def __init__(self, **kwargs):
+        kwargs.setdefault('validators', [])
+        kwargs['validators'].append(validate_object_id)
+        super().__init__(**kwargs)
+
+
 class TeamSerializer(serializers.ModelSerializer):
     id = serializers.CharField(read_only=True)
     
@@ -25,12 +34,7 @@ class TeamSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     id = serializers.CharField(read_only=True)
     team = TeamSerializer(read_only=True)
-    team_id = serializers.CharField(
-        write_only=True, 
-        required=False, 
-        allow_null=True,
-        validators=[validate_object_id]
-    )
+    team_id = ObjectIdField(write_only=True, required=False, allow_null=True)
     
     class Meta:
         model = User
@@ -46,9 +50,9 @@ class WorkoutSerializer(serializers.ModelSerializer):
 class ActivitySerializer(serializers.ModelSerializer):
     id = serializers.CharField(read_only=True)
     user = UserSerializer(read_only=True)
-    user_id = serializers.CharField(write_only=True, validators=[validate_object_id])
+    user_id = ObjectIdField(write_only=True)
     workout = WorkoutSerializer(read_only=True)
-    workout_id = serializers.CharField(write_only=True, validators=[validate_object_id])
+    workout_id = ObjectIdField(write_only=True)
     
     class Meta:
         model = Activity
@@ -57,7 +61,7 @@ class ActivitySerializer(serializers.ModelSerializer):
 class LeaderboardSerializer(serializers.ModelSerializer):
     id = serializers.CharField(read_only=True)
     user = UserSerializer(read_only=True)
-    user_id = serializers.CharField(write_only=True, validators=[validate_object_id])
+    user_id = ObjectIdField(write_only=True)
     
     class Meta:
         model = Leaderboard
